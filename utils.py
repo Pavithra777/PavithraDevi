@@ -14,6 +14,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_lr_finder import LRFinder
+
 def get_metadata_of_CIFAR10_train_dataset():
   exp = datasets.CIFAR10('./data',train =True, download=True)
   exp_data = exp.data
