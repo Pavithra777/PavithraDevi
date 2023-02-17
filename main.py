@@ -93,7 +93,7 @@ model=m.CustomResNet().to(device)
 optimizer= utils.get_optimizer(model,lr=0.001,momentum=0.9,l2=True)
 #ler_rate = find_lr(model,optimizer,criterion,train_loader)
 ler_rate = utils.find_lr(model,optimizer,criterion,10,train_loader)
-ler_rate = 0.0055237780584504125
+ler_rate = 0.004
 scheduler =utils.get_scheduler(optimizer,len(train_loader),ler_rate)
 
 model=m.CustomResNet().to(device)
