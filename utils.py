@@ -109,9 +109,7 @@ def get_device():
 def get_summary(device,net):
   summary(net,input_size=(3,32,32))
 
-
-
-def find_lr(net,optimizer,criterion,endlr,train_loader):
+  def find_lr(net,optimizer,criterion,endlr,train_loader):
   lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
   lr_finder.range_test(train_loader, end_lr=endlr, num_iter=118)
   lr_finder.plot()
@@ -177,7 +175,6 @@ def test(model,device,test_loader):
       test_loss,correct,len(test_loader.dataset),
       100.*correct/len(test_loader.dataset)))
   return 100. * correct/len(test_loader.dataset),test_loss
-
 
 def get_optimizer(net,lr,momentum,l2=False):
   if l2:
