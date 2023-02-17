@@ -111,9 +111,9 @@ def get_summary(device,net):
 
 
 
-def find_lr(net,optimizer,criterion,train_loader):
+def find_lr(net,optimizer,criterion,endlr,train_loader):
   lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
-  lr_finder.range_test(train_loader, end_lr=10, num_iter=118)
+  lr_finder.range_test(train_loader, end_lr=endlr, num_iter=118)
   lr_finder.plot()
   min_loss=min(lr_finder.history['loss'])
   ler_rate=lr_finder.history['lr'][np.argmin(lr_finder.history['loss'],axis=0)]
@@ -178,12 +178,15 @@ def test(model,device,test_loader):
       100.*correct/len(test_loader.dataset)))
   return 100. * correct/len(test_loader.dataset),test_loss
 
-def fit_model(net,device,train_loader,test_loader,scheduler,NUM_EPOCHS=20,l1=False,l2=False):
-  training_acc,training_loss,testing_acc,testing_loss=list(),list(),list(),list()
+def get_optimizer(lr,momentum,l2=False):
   if l2:
-    optimizer=optim.SGD(net.parameters(),lr=0.001,momentum=0.9,weight_decay=1e-4)
+    optimizer=optim.SGD(net.parameters(),lr=lr,momentum=momentum,weight_decay=1e-4)
   else:
-    optimizer=optim.SGD(net.parameters(),lr=0.001,momentum=0.9)
+    optimizer=optim.SGD(net.parameters(),lr=lr,momentum=momentum)
+  return optimizer
+
+def fit_model(net,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=20,l1=False):
+  training_acc,training_loss,testing_acc,testing_loss=list(),list(),list(),list()
   for epoch in range(1,NUM_EPOCHS+1):
     print("EPOCH:",epoch)
     train_acc,train_loss=train(net,device,train_loader,optimizer,l1,scheduler)
