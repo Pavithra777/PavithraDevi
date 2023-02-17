@@ -27,7 +27,7 @@ def get_metadata_of_CIFAR10_train_dataset():
   stat_dict['std'] = np.std(exp_data,axis=(0,1,2))/255.
   stat_dict['var'] = np.var(exp_data,axis=(0,1,2))/255.
   stat_dict['classes'] = exp.classes
-  print('Train')
+  print('[Train]')
   print('-Numpy Shape :', stat_dict['shape'])
   print('-min:', stat_dict['min'])
   print('-max:', stat_dict['max'])
