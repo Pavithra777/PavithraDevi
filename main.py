@@ -100,4 +100,22 @@ model=m.CustomResNet().to(device)
 #fit_model1(model,NUM_EPOCHS=24,l1=False,l2=True)
 
 utils.get_scheduler(optimizer,len(train_loader),ler_rate)
-utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
+#utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
+net,history =utils.fit_model(net2,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24)
+training_acc,training_loss,testing_acc,testing_loss = history
+testing_acc=[x.item() if isinstance(x, torch.Tensor) else x for x in testing_acc]
+testing_loss=[x.item() if isinstance(x, torch.Tensor) else x for x in testing_loss]
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(2,2,figsize=(15,8))
+axs[0, 0].plot(training_loss,color='r')
+axs[0, 0].set_title("Training Loss")
+axs[1, 0].plot(training_acc,color='b')
+axs[1, 0].set_title("Training Accuracy")
+axs[0, 1].plot(testing_loss,color='r')
+axs[0, 1].set_title("Test Loss")
+axs[1, 1].plot(testing_acc,color='b')
+axs[1, 1].set_title("Test Accuracy")
+leg = axs[0, 0].legend(loc='upper right')
+leg = axs[0, 1].legend(loc='upper right')
+leg = axs[1, 0].legend(loc='lower right')
+leg = axs[1, 1].legend(loc='lower right')
