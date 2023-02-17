@@ -90,7 +90,7 @@ def find_lr(net,optimizer,criterion,train_loader):
 
 model=m.CustomResNet().to(device)
 #optimizer=torch.optim.SGD(net.parameters(),lr=0.001,momentum=0.9,weight_decay=1e-4)
-optimizer= utils.get_optimizer(net,lr=0.001,momentum=0.9,l2=True)
+optimizer= utils.get_optimizer(model,lr=0.001,momentum=0.9,l2=True)
 #ler_rate = find_lr(model,optimizer,criterion,train_loader)
 ler_rate = utils.find_lr(model,optimizer,criterion,10,train_loader)
 
