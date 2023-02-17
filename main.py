@@ -100,4 +100,4 @@ model=m.CustomResNet().to(device)
 #fit_model1(model,NUM_EPOCHS=24,l1=False,l2=True)
 
 utils.get_scheduler(optimizer,len(train_loader),ler_rate)
-utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=20,l1=False,l2=True)
+utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
