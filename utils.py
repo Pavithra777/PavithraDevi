@@ -196,5 +196,5 @@ def fit_model(net,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS
     training_acc.append(train_acc)
     training_loss.append(train_loss)
     testing_acc.append(test_acc)
-    testing_acc.append(test_loss)
+    testing_loss.append(test_loss.item())
   return net,(training_acc,training_loss,testing_acc,testing_loss)
