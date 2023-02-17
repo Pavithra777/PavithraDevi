@@ -47,7 +47,8 @@ class CustomResNet(nn.Module):
     def __init__(self):
       super(CustomResNet, self).__init__()
       #PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
-
+      
+      # Input : 3x32x32| Output : 64x32x32 | RF 3
       self.prep_layer = nn.Sequential(
                   nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1, bias=False), 
                   nn.BatchNorm2d(64),
@@ -58,14 +59,22 @@ class CustomResNet(nn.Module):
       #X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]
       #R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k] 
       #Add(X, R1)
+    
+         
       self.layer1Conv = nn.Sequential(
+                  # Input : 64x32x32| Output : 128x32x32 | RF 5   
                   nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1, padding=1, bias=False),
+                  # Input : 128x32x32| Output : 128x16x16 | RF 6
                   nn.MaxPool2d(kernel_size=2, stride=2),
                   nn.BatchNorm2d(128),
                   nn.ReLU(),
                   
               )
+    
+    
       self.layer1Res = nn.Sequential(
+                  # CONV1 - Input : 128x16x16| Output : 128x16x16 | RF 10
+                  # CONV2 - Input : 128x16x16| Output : 128x16x16 | RF 14  
                   ResBlock(128, 128),
               )
     
@@ -75,9 +84,11 @@ class CustomResNet(nn.Module):
       #	3. BN
       #	4. ReLU		
           
-          
+           
       self.layer2 = nn.Sequential(
+                  #  Input : 128x16x16| Output : 256x16x16 | RF 18 
                   nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, stride=1, padding=1, bias=False),
+                  #  Input : 256x16x16| Output : 256x8x8 | RF 20 
                   nn.MaxPool2d(kernel_size=2, stride=2),
                   nn.BatchNorm2d(256),
                   nn.ReLU()
@@ -89,18 +100,23 @@ class CustomResNet(nn.Module):
       #	3. Add(X, R2)
 
       self.layer3Conv = nn.Sequential(
+                  #  Input : 256x8x8| Output : 512x8x8 | RF 28  
                   nn.Conv2d(in_channels=256, out_channels=512, kernel_size=3, stride=1, padding=1, bias=False),
+                  #  Input : 512x8x8| Output : 512x4x4 | RF 32  
                   nn.MaxPool2d(kernel_size=2, stride=2),
                   nn.BatchNorm2d(512),
                   nn.ReLU(),
               )
 
       self.layer3Res = nn.Sequential(
+                  #  Input : 512x8x8| Output : 512x4x4 | RF 48  
+                  #  Input : 512x8x8| Output : 512x4x4 | RF 64    
                   ResBlock(512, 512),
               )	
 
 
       #MaxPooling with Kernel Size 4
+      #  Input : 512x4x4| Output : 512x1x1 | RF 96
       self.maxpool = nn.MaxPool2d(kernel_size=4,stride=4)        
       #FC Layer 
       self.fc = nn.Linear(512, 10)	
