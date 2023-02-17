@@ -121,7 +121,7 @@ def find_lr(net,optimizer,criterion,train_loader):
   return ler_rate
 
 def get_scheduler(optimizer,data_loader_length,ler_rate):
-  scheduler=torch.optim.lr_scheduler.OneCycleLR(optimizer
+  return scheduler=torch.optim.lr_scheduler.OneCycleLR(optimizer
                                                 ,max_lr=ler_rate,
                                                 steps_per_epoch= data_loader_length,
                                                 epochs=24,
