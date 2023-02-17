@@ -108,7 +108,7 @@ def get_device():
 def get_summary(device,net):
   summary(net,input_size=(3,32,32))
 
-!pip install torch_lr_finder
+#!pip install torch_lr_finder
 from torch_lr_finder import LRFinder
 
 def find_lr(net,optimizer,criterion,train_loader):
