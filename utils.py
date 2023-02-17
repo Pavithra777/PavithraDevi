@@ -110,14 +110,14 @@ def get_summary(device,net):
   summary(net,input_size=(3,32,32))
 
   def find_lr(net,optimizer,criterion,endlr,train_loader):
-  lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
-  lr_finder.range_test(train_loader, end_lr=endlr, num_iter=118)
-  lr_finder.plot()
-  min_loss=min(lr_finder.history['loss'])
-  ler_rate=lr_finder.history['lr'][np.argmin(lr_finder.history['loss'],axis=0)]
-  print("Max LR is {}".format(ler_rate))
-  lr_finder.reset() 
-  return ler_rate
+    lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
+    lr_finder.range_test(train_loader, end_lr=endlr, num_iter=118)
+    lr_finder.plot()
+    min_loss=min(lr_finder.history['loss'])
+    ler_rate=lr_finder.history['lr'][np.argmin(lr_finder.history['loss'],axis=0)]
+    print("Max LR is {}".format(ler_rate))
+    lr_finder.reset() 
+    return ler_rate
 
 def get_scheduler(optimizer,data_loader_length,ler_rate):
   return torch.optim.lr_scheduler.OneCycleLR(optimizer
