@@ -13,7 +13,7 @@ from tqdm import tqdm
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from torch_lr_finder import LRFinder
 def get_metadata_of_CIFAR10_train_dataset():
   exp = datasets.CIFAR10('./data',train =True, download=True)
   exp_data = exp.data
@@ -108,8 +108,7 @@ def get_device():
 def get_summary(device,net):
   summary(net,input_size=(3,32,32))
 
-#!pip install torch_lr_finder
-from torch_lr_finder import LRFinder
+
 
 def find_lr(net,optimizer,criterion,train_loader):
   lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
