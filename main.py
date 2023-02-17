@@ -97,11 +97,11 @@ ler_rate = utils.find_lr(model,optimizer,criterion,10,train_loader,l2=True)
 scheduler =utils.get_scheduler(optimizer,len(train_loader),ler_rate)
 
 model=m.CustomResNet().to(device)
-#fit_model1(model,NUM_EPOCHS=24,l1=False,l2=True)
+#fit_model1(model,NUM_EPOCHS=24,l1=False)
 
 utils.get_scheduler(optimizer,len(train_loader),ler_rate)
 #utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
-net,history =utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24)
+net,history =utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
 training_acc,training_loss,testing_acc,testing_loss = history
 testing_acc=[x.item() if isinstance(x, torch.Tensor) else x for x in testing_acc]
 testing_loss=[x.item() if isinstance(x, torch.Tensor) else x for x in testing_loss]
