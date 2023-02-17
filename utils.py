@@ -183,12 +183,16 @@ def get_optimizer(net,lr,momentum,l2=False):
     optimizer=optim.SGD(net.parameters(),lr=lr,momentum=momentum)
   return optimizer
 
-def fit_model(net,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=20,l1=False):
+def fit_model(net,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=20,l1=False,l2=False):
   training_acc,training_loss,testing_acc,testing_loss=list(),list(),list(),list()
+  if l2:
+    optimizer=optim.SGD(net.parameters(),lr=0.001,momentum=0.9,weight_decay=1e-4)
+  else:
+    optimizer=optim.SGD(net.parameters(),lr=0.001,momentum=0.9)
   for epoch in range(1,NUM_EPOCHS+1):
     print("EPOCH:",epoch)
-    train_acc,train_loss=train(net,device,train_loader,optimizer,l1,scheduler)
-    test_acc,test_loss=test(net,device,test_loader)
+    train_acc,train_loss=utils.train(net,device,train_loader,optimizer,l1,scheduler)
+    test_acc,test_loss=utils.test(net,device,test_loader)
     training_acc.append(train_acc)
     training_loss.append(train_loss)
     testing_acc.append(test_acc)
