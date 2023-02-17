@@ -178,7 +178,7 @@ def test(model,device,test_loader):
       100.*correct/len(test_loader.dataset)))
   return 100. * correct/len(test_loader.dataset),test_loss
 
-def get_optimizer(lr,momentum,l2=False):
+def get_optimizer(net,lr,momentum,l2=False):
   if l2:
     optimizer=optim.SGD(net.parameters(),lr=lr,momentum=momentum,weight_decay=1e-4)
   else:
