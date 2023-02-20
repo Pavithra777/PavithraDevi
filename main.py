@@ -12,6 +12,8 @@ from torchvision import datasets, transforms
 from tqdm import tqdm
 import utils
 import model as m
+import copy
+import matplotlib.pyplot as plt
 
 train_dataset_dict = utils.get_metadata_of_CIFAR10_train_dataset()
 train_dataset = train_dataset_dict['dataset'] 
@@ -60,23 +62,14 @@ device= utils.get_device()
 print(device)
 net=m.CustomResNet().to(device)
 utils.get_summary(device,net)
-
+net_exp = copy.deepcopy(net)
 from torchvision.transforms import ToTensor
 from torch_lr_finder import LRFinder
 import torch.nn as nn
-# #dataset =  datasets.CIFAR10(root='./data', train=True, download=True, transform=ToTensor())
-# #dataloader = DataLoader(dataset, batch_size=512, shuffle=True)
-# model=m.CustomResNet().to(device)
-# # create a range test object and run the range test
-# optimizer=torch.optim.SGD(net.parameters(),lr=0.001,momentum=0.9)
-criterion = nn.CrossEntropyLoss()
-# lr_finder = LRFinder(model, optimizer, criterion)
-# lr_finder.range_test(train_loader, end_lr=10, num_iter=118)
-
-# # plot the results of the range test
-# lr_finder.plot()
-
 from torch_lr_finder import LRFinder
+
+
+criterion = nn.CrossEntropyLoss()
 
 def find_lr(net,optimizer,criterion,train_loader):
   lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
@@ -88,22 +81,18 @@ def find_lr(net,optimizer,criterion,train_loader):
   lr_finder.reset() 
   return ler_rate
 
-model=m.CustomResNet().to(device)
-#optimizer=torch.optim.SGD(net.parameters(),lr=0.001,momentum=0.9,weight_decay=1e-4)
-optimizer= utils.get_optimizer(model,lr=0.001,momentum=0.9,l2=True)
-#ler_rate = find_lr(model,optimizer,criterion,train_loader)
-ler_rate = utils.find_lr(model,optimizer,criterion,1,train_loader)
-ler_rate = 0.0035237780584504125
+
+optimizer= utils.get_optimizer(net_exp,lr=0.001,momentum=0.9,l2=True)
+ler_rate = utils.find_lr(net_exp,optimizer,criterion,1,train_loader)
 scheduler =utils.get_scheduler(optimizer,len(train_loader),ler_rate)
-
-model=m.CustomResNet().to(device)
-#fit_model1(model,NUM_EPOCHS=24,l1=False)
-
 utils.get_scheduler(optimizer,len(train_loader),ler_rate)
-#utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
-net,history =utils.fit_model(model,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
+
+net,history =utils.fit_model(net,device,train_loader,test_loader,scheduler,optimizer,NUM_EPOCHS=24,l1=False,l2=True)
+
+
+
 training_acc,training_loss,testing_acc,testing_loss = history
-import matplotlib.pyplot as plt
+
 fig, axs = plt.subplots(2,2,figsize=(15,8))
 axs[0, 0].plot(training_loss,color='r')
 axs[0, 0].set_title("Training Loss")
