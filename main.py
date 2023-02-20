@@ -83,7 +83,7 @@ def find_lr(net,optimizer,criterion,train_loader):
 
 
 optimizer= utils.get_optimizer(net_exp,lr=0.001,momentum=0.9,l2=True)
-ler_rate = utils.find_lr(net_exp,optimizer,criterion,1,train_loader)
+ler_rate = utils.find_lr(net_exp,optimizer,criterion,10,train_loader)
 scheduler =utils.get_scheduler(optimizer,len(train_loader),ler_rate)
 utils.get_scheduler(optimizer,len(train_loader),ler_rate)
 
