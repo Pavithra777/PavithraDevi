@@ -26,7 +26,7 @@ class UltimusBlock(nn.Module):
         # Z*Out = 8*8x48 > 48
         return self.Out(z)
 
-class CIFAR10Model(nn.Module):
+class TransformerModel(nn.Module):
     def __init__(self):
         super(CIFAR10Model, self).__init__()
         
