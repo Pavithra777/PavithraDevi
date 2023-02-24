@@ -71,18 +71,6 @@ from torch_lr_finder import LRFinder
 
 criterion = nn.CrossEntropyLoss()
 
-def find_lr(net,optimizer,criterion,train_loader):
-  lr_finder=LRFinder(net,optimizer,criterion,device="cuda")
-  lr_finder.range_test(train_loader, end_lr=10, num_iter=118)
-  lr_finder.plot()
-  min_loss=min(lr_finder.history['loss'])
-  ler_rate=lr_finder.history['lr'][np.argmin(lr_finder.history['loss'],axis=0)]
-  ler_rate=0.004
-  print("Max LR is {}".format(ler_rate))
-  lr_finder.reset() 
-  return ler_rate
-
-
 optimizer= utils.get_optimizer(net_exp,lr=0.001,momentum=0.9,l2=True)
 ler_rate = utils.find_lr(net_exp,optimizer,criterion,10,train_loader)
 scheduler =utils.get_scheduler(optimizer,len(train_loader),ler_rate)
