@@ -125,10 +125,11 @@ def get_scheduler(optimizer,data_loader_length,ler_rate):
                                                 steps_per_epoch= data_loader_length,
                                                 epochs=24,
                                                 pct_start=5/24,
-                                                div_factor=10,
+                                                div_factor=5,
                                                 three_phase=False,
-                                                final_div_factor=50,
-                                                anneal_strategy='linear')
+                                                final_div_factor=50
+                                               # ,anneal_strategy='linear'
+                                            )
 
 def train(model,device,train_loader,optimizer,l1,scheduler):
   model.train()
