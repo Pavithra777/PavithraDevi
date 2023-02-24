@@ -28,7 +28,7 @@ class UltimusBlock(nn.Module):
 
 class TransformerModel(nn.Module):
     def __init__(self):
-        super(CIFAR10Model, self).__init__()
+        super(TransformerModel, self).__init__()
         
         #Add 3 Convolutions to arrive at AxAx48 dimensions (e.g. 32x32x3 | 3x3x3x16 >> 3x3x16x32 >> 3x3x32x48)
         self.conv1 = nn.Conv2d(3, 16, 3, padding=1)
