@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
+
 class UltimusBlock(nn.Module):
     def __init__(self, in_dim, out_dim):
         super(UltimusBlock, self).__init__()
