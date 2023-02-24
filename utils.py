@@ -125,7 +125,7 @@ def get_scheduler(optimizer,data_loader_length,ler_rate):
                                                 steps_per_epoch= data_loader_length,
                                                 epochs=24,
                                                 pct_start=5/24,
-                                                div_factor=5,
+                                                div_factor=10,
                                                 three_phase=False,
                                                 final_div_factor=50
                                                # ,anneal_strategy='linear'
