@@ -128,7 +128,7 @@ def get_scheduler(optimizer,data_loader_length,ler_rate):
                                                 div_factor=10,
                                                 three_phase=False,
                                                 final_div_factor=50
-                                               # ,anneal_strategy='linear'
+                                                ,anneal_strategy='linear'
                                             )
 
 def train(model,device,train_loader,optimizer,l1,scheduler):
